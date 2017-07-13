@@ -15,15 +15,26 @@ export default class App extends React.Component {
     Expo.ScreenOrientation.allow(Expo.ScreenOrientation.Orientation.ALL);
   }
   render() {
+    let clip_url='https://flixerapp.com:8083/vod/dex/AKB0048/AKB0048_01.smil/playlist.m3u8';
+    let start_time=600;
+    start_ms=start_time*1000;
       return(
          <View style={styles.container} >
-        <Text>Ok</Text>         
-                </View> 
+                <Expo.Video source={{uri:clip_url}} 
+                    style={styles.player}
+                    useNativeControls
+                    resizeMode='cover' 
+                    shouldPlay={true}
+                    positionMillis={start_ms}
+                                        
+                    />
+                    
+                </View>
       )
   }
 }
 const styles=StyleSheet.create({
-  container:{flex:1,alignItems:'center',justifyContent:'center',backgroundColor:'#fff'},
+  container:{flex:1,alignItems:'center',justifyContent:'center',backgroundColor:'#000'},
   player:{flex:1,width:640,height:480},
 
 });
