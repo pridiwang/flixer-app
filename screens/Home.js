@@ -1,18 +1,15 @@
 import React from 'react';
 import {TouchableOpacity, TouchableHilight, ScrollView,ActivityIndicator, Image, ListView, StyleSheet, Text, View,Button } from 'react-native';
 import Swiper from 'react-native-swiper';
-import {StackNavigator,TabNavigator,DrawerNavigator} from 'react-navigation';
 
-import Title from './Title';
-import Search from './Search';
-
-class Home extends React.Component {
+export default class Home extends React.Component {
     static navigationOptions={title:'Flixer',};
-  constructor(props) {
+    constructor(props) {
     super(props);
     this.state = {
       isLoading: true
     }
+    Expo.ScreenOrientation.allow(Expo.ScreenOrientation.Orientation.PORTRAIT);
   }
   componentWillMount(){
     this.getHomeFromApiAsync();
@@ -83,7 +80,7 @@ class Home extends React.Component {
                   var id=api_ar[api_ar.length-1];
                     
                     return (
-                        <TouchableOpacity onPress={()=>this.HomeNavTo(sh.type,s.id)} key={i*10+j}>
+                        <TouchableOpacity onPress={()=>this.HomeNavTo(sh.type,s.id,s.name)} key={i*10+j}>
                       <View    >
                         <Image source={{uri:s.thumbnail_url}} style={imgStyle} >
                           <Text style={styles.thText}>{s.name} </Text>
@@ -101,28 +98,18 @@ class Home extends React.Component {
       )
     }
   }
-  HomeNavTo(type,id){
+  HomeNavTo(type,data_id,data_name){
       const {navigate}=this.props.navigation;
-      if(type=='movie') navigate('Title',{data:id});
-      else navigate('Search',{data:id})
+      console.log('homeNavTo type:'+type+' id:'+data_id+' name:'+data_name);
+      if(type=='movie') navigate('Title',{data: data_id,name:data_name});
+      else navigate('Search',{data: data_id,name:data_name})
 
   }
   loadTitle(){
       console.log('loading Title');
   }
 }
-const HomeNavigator = StackNavigator({
-    Home:   {screen: Home},
-    Title:  {screen: Title},
-    Search: {screen: Search},
-});
-export default class HomeApp extends React.Component{
-    render(){
-        return (
-        <HomeNavigator />
-        )
-    }
-}
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,

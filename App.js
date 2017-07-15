@@ -2,23 +2,14 @@ import React from 'react';
 import {Button,TouchableHighlight, ScrollView,ActivityIndicator, Image, ListView, StyleSheet, Text, View } from 'react-native';
 import Swiper from 'react-native-swiper';
 import {StackNavigator,TabNavigator,DrawerNavigation} from 'react-navigation';
-
 import Expo,{Video} from 'expo';
-import Home from './screens/Home';
+
+import MainNavigator from './navigation/MainNavigator';
 
 export default class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isLoading: true
-    }
-    Expo.ScreenOrientation.allow(Expo.ScreenOrientation.Orientation.ALL);
-  }
   render() {
       return(
-         <View style={styles.container} >
-        <Text>Ok</Text>         
-                </View> 
+       <MainNavigator />
       )
   }
 }

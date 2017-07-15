@@ -1,27 +1,29 @@
 import React from 'react';
-import { ScrollView,ActivityIndicator, Image, ListView, StyleSheet, Text, View } from 'react-native';
+import {TouchableOpacity, TouchableHilight, ScrollView,ActivityIndicator, Image, ListView, StyleSheet, Text, View } from 'react-native';
 import {StackNavigator,TabNavigator,DrawerNavigation} from 'react-navigation';
 import Swiper from 'react-native-swiper';
-
-
+import Expo from 'expo';
 export default class Title extends React.Component {
-   static navigationOptions={}; 
-    constructor(props) {
-        super(props);
-        this.state = {
-            isLoading: true
-        }
-    }
+  static navigationOptions=({navigation})=>({
+    title:` ${navigation.state.params.name}`,
+  }); 
   
-  componentWillMount(){
-    this.getHomeFromApiAsync();
+  constructor(props) {
+      super(props);
+      this.state = {
+          isLoading: true,
+          id:2
+      }
+      
   }
-  getHomeFromApiAsync() {
+  componentWillMount(){
     const {params}=this.props.navigation.state;
-    console.log('got data id');
-    console.log(params.data);
-    this.setState({id:params.data})
-    var url='http://flixerapp.com/api/title/'+params.data;
+    console.log('WillMount');
+    console.log(params);
+    this.setState({id:params.data});
+    var id=params.data;
+    
+    var url='http://flixerapp.com/api/title/'+id;
     console.log('url:'+url);
     return fetch(url)
       .then((response) => response.json())
@@ -37,9 +39,8 @@ export default class Title extends React.Component {
         console.error(error);
       });
   }
-
   render() {
-      
+    Expo.ScreenOrientation.allow(Expo.ScreenOrientation.Orientation.PORTRAIT);
     if(this.state.isLoading){
       return(
         <View style={styles.container}>
@@ -49,20 +50,23 @@ export default class Title extends React.Component {
     }else{
       var title=this.state.title;
       console.log(title);
-      return(
-        <ScrollView style={{backgroundColor:'#000'}}>
+      const {navigate}=this.props.navigation;
+      return( 
+        <ScrollView style={{flex:1,backgroundColor:'#000'}} contentContainerStyle={{justifyContent:'center',alignItems:'center'}} >
           
-          <Image source={{uri:title.featureimage_url}} style={styles.slideBanner} />
-          <Text style={{fontSize:24,color:'#fff'}}>{title.name}</Text>
+          <Image source={{uri:title.featureimage_url}} style={styles.slideBanner}  resizeMode='cover' >
+          <Text style={{fontSize:24,color:'#fff',position:'absolute',bottom:0,flex:1,backgroundColor:'rgba(0,0,0,0.5)',width:320,padding:3,}}>{title.name}</Text>
+          </Image>
           
           <ListView dataSource={this.state.episode} 
-          contentContainerStyle={{flexWrap:'wrap',flexDirection:'row'}} 
+          contentContainerStyle={{flex:3,flexWrap:'wrap',flexDirection:'row',justifyContent:'space-around'}} 
           renderRow={(dr)=>
+          <TouchableOpacity onPress={()=>navigate('PlayerExpo',{data:dr})}>
             <Image source={{uri:'https://api.flixerapp.com/poster/'+this.state.id+'.jpg'}} 
-            style={{margin:2,width:102,height:140,position:'relative'}}
-            ><Text style={{position:'absolute',color:'#fff',bottom:0,right:0}} >{dr.name}</Text>
+            style={{margin:2,width:102,height:140,position:'relative',flex:1}}
+            ><Text style={{position:'absolute',color:'#fff',bottom:0,right:0,padding:3,backgroundColor:'rgba(100,0,0,0.5)'}} >{dr.name}</Text>
             </Image>
-            
+            </TouchableOpacity>
             }
           />
           

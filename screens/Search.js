@@ -1,12 +1,10 @@
 import React from 'react';
 import {TouchableHighlight, ScrollView,ActivityIndicator, Image, ListView, StyleSheet, Text, View } from 'react-native';
-import Swiper from 'react-native-swiper';
-import {StackNavigator,TabNavigator,DrawerNavigation} from 'react-navigation';
-
-
 
 export default class Search extends React.Component {
-  static navigationOptions={title:'Search'};
+  static navigationOptions=({navigation})=>({
+    title:`search: ${navigation.state.params.name}`,
+  }); 
   constructor(props) {
     super(props);
     this.state = {
@@ -14,7 +12,6 @@ export default class Search extends React.Component {
     }
   }
   componentWillMount(){
-
     var search='music';
     const {params}=this.props.navigation.state;
    console.log(params.data);
