@@ -18,17 +18,32 @@ static navigationOptions = {header: null };
     const {params}=this.props.navigation.state;
     console.log('player ');
     console.log(params);
-    let clip_url=params.data.m3u8
+    title=params.data.title;
+    ep=params.data.episode;
+    let clip_url=params.data.m3u8;
     let start_time=params.data.start_time;
     start_ms=start_time*1000;
       return(
          <View style={styles.container} >
                 <Expo.Video source={{uri:clip_url}} 
-                    style={styles.player} useNativeControls
+                    style={styles.player} 
+                    
                     resizeMode='contain' 
                     shouldPlay={true}
                     positionMillis={start_ms}
-                                                            
+                    progressUpdateIntervalMillis={30000}
+                  callback={(pbObj)=>{
+                      //console.log(pbObj);
+                      sec=Math.round(pbObj.positionMillis/1000);
+                      if(sec>10){
+                        console.log('sec:'+sec);
+                        url='http://flixerapp.com/api/watching/'+title+'/'+ep+'/'+sec;
+                        console.log('url:'+url);
+                        fetch (url,{
+                            header:{'Authorizaton':'Basic '+'51832723063ba110a95a9ab1f4c25371'}
+                        });
+                      }
+                  }}                                                            
                     />
                     
                 </View>

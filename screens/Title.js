@@ -52,18 +52,18 @@ export default class Title extends React.Component {
       console.log(title);
       const {navigate}=this.props.navigation;
       return( 
-        <ScrollView style={{flex:1,backgroundColor:'#000'}} contentContainerStyle={{justifyContent:'center',alignItems:'center'}} >
+        <ScrollView style={{flex:1,backgroundColor:'#000'}} contentContainerStyle={{justifyContent:'center'}} >
           
           <Image source={{uri:title.featureimage_url}} style={styles.slideBanner}  resizeMode='cover' >
           <Text style={{fontSize:24,color:'#fff',position:'absolute',bottom:0,flex:1,backgroundColor:'rgba(0,0,0,0.5)',width:320,padding:3,}}>{title.name}</Text>
           </Image>
           
-          <ListView dataSource={this.state.episode} 
-          contentContainerStyle={{flex:3,flexWrap:'wrap',flexDirection:'row',justifyContent:'space-around'}} 
+          <ListView dataSource={this.state.episode}
+          contentContainerStyle={{flex:3,flexWrap:'wrap',flexDirection:'row',justifyContent:'space-around',alignContent:'flex-start'}}
           renderRow={(dr)=>
           <TouchableOpacity onPress={()=>navigate('PlayerExpo',{data:dr})}>
             <Image source={{uri:'https://api.flixerapp.com/poster/'+this.state.id+'.jpg'}} 
-            style={{margin:2,width:102,height:140,position:'relative',flex:1}}
+            style={{margin:2,width:102,height:140,position:'relative',flex:1,alignSelf:'flex-start'}}
             ><Text style={{position:'absolute',color:'#fff',bottom:0,right:0,padding:3,backgroundColor:'rgba(100,0,0,0.5)'}} >{dr.name}</Text>
             </Image>
             </TouchableOpacity>
